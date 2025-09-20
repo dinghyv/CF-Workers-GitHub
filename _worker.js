@@ -232,21 +232,25 @@ async function githubInterface() {
 		<!DOCTYPE html>
 		<html lang="zh-CN">
 		<head>
-			<title>GitHub 文件加速</title>
+			<title>GitHub 文件加速 - GTA Style</title>
 			<meta charset="UTF-8">
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
 			<style>
 				:root {
-					--primary-color: #0d1117;
-					--secondary-color: #161b22;
-					--text-color: #f0f6fc;
-					--accent-color: #58a6ff;
-					--gradient-start: #24292e;
-					--gradient-end: #0d1117;
-					--shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-					--border-color: rgba(255, 255, 255, 0.1);
-					--github-corner-bg: #f0f6fc;
-					--github-corner-fg: rgb(21,26,31);
+					--primary-color: #0a0a0a;
+					--secondary-color: #1a1a1a;
+					--text-color: #00ff00;
+					--accent-color: #ff6b00;
+					--neon-blue: #00ffff;
+					--neon-pink: #ff00ff;
+					--neon-green: #00ff00;
+					--neon-orange: #ff6b00;
+					--gradient-start: #0a0a0a;
+					--gradient-end: #1a1a1a;
+					--shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+					--border-color: rgba(0, 255, 0, 0.3);
+					--github-corner-bg: #00ff00;
+					--github-corner-fg: #0a0a0a;
 				}
 
 				* {
@@ -256,36 +260,98 @@ async function githubInterface() {
 				}
 
 				body {
-					font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+					font-family: 'Courier New', 'Monaco', 'Menlo', monospace;
 					min-height: 100vh;
-					background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+					background: 
+						radial-gradient(circle at 20% 80%, rgba(0, 255, 0, 0.1) 0%, transparent 50%),
+						radial-gradient(circle at 80% 20%, rgba(255, 0, 255, 0.1) 0%, transparent 50%),
+						radial-gradient(circle at 40% 40%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+						linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
 					color: var(--text-color);
 					display: flex;
 					justify-content: center;
 					align-items: center;
 					padding: 20px;
+					position: relative;
+					overflow-x: hidden;
+				}
+
+				body::before {
+					content: '';
+					position: fixed;
+					top: 0;
+					left: 0;
+					width: 100%;
+					height: 100%;
+					background: 
+						repeating-linear-gradient(
+							0deg,
+							transparent,
+							transparent 2px,
+							rgba(0, 255, 0, 0.03) 2px,
+							rgba(0, 255, 0, 0.03) 4px
+						);
+					pointer-events: none;
+					z-index: 1;
 				}
 
 				.container {
 					width: 100%;
-					max-width: 800px;
+					max-width: 900px;
 					padding: 40px 20px;
 					text-align: center;
+					position: relative;
+					z-index: 2;
+					background: rgba(0, 0, 0, 0.8);
+					border: 2px solid var(--neon-green);
+					border-radius: 15px;
+					box-shadow: 
+						0 0 30px rgba(0, 255, 0, 0.5),
+						inset 0 0 30px rgba(0, 255, 0, 0.1);
+					backdrop-filter: blur(10px);
 				}
 
 				.title {
-					font-size: 2.5rem;
-					font-weight: 600;
-					margin-bottom: 1.5rem;
-					color: var(--text-color);
-					font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
-					letter-spacing: -0.5px;
+					font-size: 3rem;
+					font-weight: 700;
+					margin-bottom: 2rem;
+					color: var(--neon-green);
+					font-family: 'Courier New', monospace;
+					letter-spacing: 2px;
+					text-shadow: 
+						0 0 10px var(--neon-green),
+						0 0 20px var(--neon-green),
+						0 0 30px var(--neon-green);
+					animation: neonFlicker 2s infinite alternate;
+				}
+
+				@keyframes neonFlicker {
+					0%, 18%, 22%, 25%, 53%, 57%, 100% {
+						text-shadow: 
+							0 0 10px var(--neon-green),
+							0 0 20px var(--neon-green),
+							0 0 30px var(--neon-green);
+					}
+					20%, 24%, 55% {
+						text-shadow: 
+							0 0 5px var(--neon-green),
+							0 0 10px var(--neon-green),
+							0 0 15px var(--neon-green);
+					}
 				}
 
 				.title .emoji {
 					display: inline-block;
-					color: #f1fa8c;
-					margin-right: 8px;
+					color: var(--neon-orange);
+					margin-right: 15px;
+					font-size: 3.5rem;
+					animation: pulse 1.5s infinite;
+				}
+
+				@keyframes pulse {
+					0% { transform: scale(1); }
+					50% { transform: scale(1.1); }
+					100% { transform: scale(1); }
 				}
 
 				.tips a {
@@ -302,28 +368,40 @@ async function githubInterface() {
 
 				.search-container {
 					position: relative;
-					max-width: 600px;
+					max-width: 700px;
 					margin: 2rem auto;
 				}
 
 				.search-input {
 					width: 100%;
-					height: 56px;
-					padding: 0 60px 0 24px;
-					font-size: 1rem;
-					color: #1f2937;
-					background: rgba(255, 255, 255, 0.95);
-					border: 2px solid transparent;
-					border-radius: 12px;
-					box-shadow: var(--shadow);
+					height: 60px;
+					padding: 0 70px 0 24px;
+					font-size: 1.1rem;
+					color: var(--neon-green);
+					background: rgba(0, 0, 0, 0.9);
+					border: 2px solid var(--neon-green);
+					border-radius: 15px;
+					box-shadow: 
+						0 0 20px rgba(0, 255, 0, 0.3),
+						inset 0 0 20px rgba(0, 255, 0, 0.1);
 					transition: all 0.3s ease;
+					font-family: 'Courier New', monospace;
+					letter-spacing: 1px;
 				}
 
 				.search-input:focus {
-					border-color: var(--accent-color);
-					background: white;
+					border-color: var(--neon-orange);
+					background: rgba(0, 0, 0, 0.95);
 					outline: none;
-					box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.3);
+					box-shadow: 
+						0 0 30px rgba(255, 107, 0, 0.5),
+						inset 0 0 30px rgba(255, 107, 0, 0.1);
+					color: var(--neon-orange);
+				}
+
+				.search-input::placeholder {
+					color: rgba(0, 255, 0, 0.6);
+					font-family: 'Courier New', monospace;
 				}
 
 				.search-button {
@@ -331,46 +409,88 @@ async function githubInterface() {
 					right: 8px;
 					top: 50%;
 					transform: translateY(-50%);
-					width: 44px;
-					height: 44px;
-					border: none;
-					border-radius: 8px;
-					background: var(--accent-color);
-					color: white;
+					width: 48px;
+					height: 48px;
+					border: 2px solid var(--neon-orange);
+					border-radius: 12px;
+					background: rgba(255, 107, 0, 0.1);
+					color: var(--neon-orange);
 					cursor: pointer;
-					transition: all 0.2s ease;
+					transition: all 0.3s ease;
+					box-shadow: 0 0 15px rgba(255, 107, 0, 0.3);
 				}
 
 				.search-button:hover {
-					background: #4187d7;
-					transform: translateY(-50%) scale(1.05);
+					background: rgba(255, 107, 0, 0.2);
+					transform: translateY(-50%) scale(1.1);
+					box-shadow: 0 0 25px rgba(255, 107, 0, 0.6);
+				}
+
+				.copy-button {
+					position: absolute;
+					right: 65px;
+					top: 50%;
+					transform: translateY(-50%);
+					width: 48px;
+					height: 48px;
+					border: 2px solid var(--neon-blue);
+					border-radius: 12px;
+					background: rgba(0, 255, 255, 0.1);
+					color: var(--neon-blue);
+					cursor: pointer;
+					transition: all 0.3s ease;
+					box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+				}
+
+				.copy-button:hover {
+					background: rgba(0, 255, 255, 0.2);
+					transform: translateY(-50%) scale(1.1);
+					box-shadow: 0 0 25px rgba(0, 255, 255, 0.6);
 				}
 
 				.tips {
 					margin-top: 2rem;
-					color: rgba(240, 246, 252, 0.8);
-					line-height: 1.6;
+					color: var(--neon-green);
+					line-height: 1.8;
 					text-align: left;
 					padding-left: 1.8rem;
+					font-family: 'Courier New', monospace;
+					font-size: 1rem;
+				}
+
+				.tips a {
+					color: var(--neon-orange);
+					text-decoration: none;
+					border-bottom: 1px dashed var(--neon-orange);
+					transition: all 0.3s ease;
+				}
+
+				.tips a:hover {
+					color: var(--neon-pink);
+					border-bottom-color: var(--neon-pink);
+					text-shadow: 0 0 10px var(--neon-pink);
 				}
 
 				.example-title {
-					color: var(--accent-color);
+					color: var(--neon-orange);
 					margin-bottom: 1.5rem;
-					font-size: 1.1rem;
-					font-weight: 600;
+					font-size: 1.3rem;
+					font-weight: 700;
 					position: relative;
 					padding-bottom: 0.8rem;
-					border-bottom: 1px solid var(--border-color);
+					border-bottom: 2px solid var(--neon-orange);
+					text-shadow: 0 0 10px var(--neon-orange);
+					font-family: 'Courier New', monospace;
+					letter-spacing: 1px;
 				}
 
 				.example p {
-					margin: 0.9rem 0;
-					font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-					font-size: 0.95rem;
-					color: rgba(240, 246, 252, 0.9);
+					margin: 1rem 0;
+					font-family: 'Courier New', monospace;
+					font-size: 1rem;
+					color: var(--neon-green);
 					padding-left: 1.5rem;
-					line-height: 1.4;
+					line-height: 1.6;
 					word-wrap: break-word;
 					word-break: break-all;
 					overflow-wrap: break-word;
@@ -378,17 +498,22 @@ async function githubInterface() {
 
 				.example {
 					margin-top: 2.5rem;
-					padding: 1.8rem;
-					background: rgba(255, 255, 255, 0.05);
-					border-radius: 12px;
+					padding: 2rem;
+					background: rgba(0, 0, 0, 0.6);
+					border-radius: 15px;
 					text-align: left;
-					border: 1px solid var(--border-color);
-					box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+					border: 2px solid var(--neon-blue);
+					box-shadow: 
+						0 0 25px rgba(0, 255, 255, 0.3),
+						inset 0 0 25px rgba(0, 255, 255, 0.1);
 					overflow-x: auto;
+					backdrop-filter: blur(5px);
 				}
 
 				.url-part {
-					color: var(--accent-color);
+					color: var(--neon-pink);
+					text-shadow: 0 0 5px var(--neon-pink);
+					font-weight: bold;
 				}
 
 				.github-corner {
@@ -399,19 +524,15 @@ async function githubInterface() {
 				}
 
 				.github-corner svg {
-					fill: var(--github-corner-bg);
-					color: var(--github-corner-fg);
+					fill: var(--neon-green);
+					color: var(--primary-color);
 					position: absolute;
 					top: 0;
 					border: 0;
 					right: 0;
 					width: 80px;
 					height: 80px;
-				}
-
-				.github-corner a,
-				.github-corner a:visited {
-					color: var(--github-corner-fg) !important;
+					filter: drop-shadow(0 0 10px var(--neon-green));
 				}
 
 				.github-corner a,
@@ -422,11 +543,15 @@ async function githubInterface() {
 
 				.github-corner .octo-body,
 				.github-corner .octo-arm {
-					fill: var(--github-corner-fg) !重要;
+					fill: var(--primary-color) !important;
 				}
 
 				.github-corner:hover .octo-arm {
 					animation: octocat-wave 560ms ease-in-out;
+				}
+
+				.github-corner:hover svg {
+					filter: drop-shadow(0 0 20px var(--neon-orange));
 				}
 
 				@keyframes octocat-wave {
@@ -435,43 +560,159 @@ async function githubInterface() {
 					40%, 80% { transform: rotate(10deg); }
 				}
 
+				.copyright {
+					margin-top: 3rem;
+					padding: 1.5rem;
+					text-align: center;
+					color: var(--neon-blue);
+					font-family: 'Courier New', monospace;
+					font-size: 0.9rem;
+					border-top: 1px solid var(--neon-blue);
+					background: rgba(0, 255, 255, 0.05);
+					border-radius: 10px;
+					box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+				}
+
+				.copyright a {
+					color: var(--neon-orange);
+					text-decoration: none;
+					margin: 0 10px;
+					transition: all 0.3s ease;
+				}
+
+				.copyright a:hover {
+					color: var(--neon-pink);
+					text-shadow: 0 0 10px var(--neon-pink);
+				}
+
+				.result-container {
+					margin-top: 2rem;
+					padding: 1.5rem;
+					background: rgba(0, 0, 0, 0.8);
+					border: 2px solid var(--neon-green);
+					border-radius: 15px;
+					box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+					display: none;
+				}
+
+				.result-url {
+					word-break: break-all;
+					color: var(--neon-green);
+					font-family: 'Courier New', monospace;
+					font-size: 0.9rem;
+					line-height: 1.4;
+					margin-bottom: 1rem;
+				}
+
+				.action-buttons {
+					display: flex;
+					gap: 1rem;
+					justify-content: center;
+					flex-wrap: wrap;
+				}
+
+				.action-btn {
+					padding: 10px 20px;
+					border: 2px solid;
+					border-radius: 10px;
+					background: rgba(0, 0, 0, 0.5);
+					color: inherit;
+					cursor: pointer;
+					transition: all 0.3s ease;
+					font-family: 'Courier New', monospace;
+					font-weight: bold;
+					text-decoration: none;
+					display: inline-flex;
+					align-items: center;
+					gap: 8px;
+				}
+
+				.copy-btn {
+					border-color: var(--neon-blue);
+					color: var(--neon-blue);
+					box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+				}
+
+				.copy-btn:hover {
+					background: rgba(0, 255, 255, 0.1);
+					box-shadow: 0 0 25px rgba(0, 255, 255, 0.6);
+				}
+
+				.jump-btn {
+					border-color: var(--neon-orange);
+					color: var(--neon-orange);
+					box-shadow: 0 0 15px rgba(255, 107, 0, 0.3);
+				}
+
+				.jump-btn:hover {
+					background: rgba(255, 107, 0, 0.1);
+					box-shadow: 0 0 25px rgba(255, 107, 0, 0.6);
+				}
+
 				@media (max-width: 640px) {
 					.container {
 						padding: 20px;
+						margin: 10px;
 					}
 
 					.title {
-						font-size: 2rem;
+						font-size: 2.2rem;
+						letter-spacing: 1px;
+					}
+
+					.title .emoji {
+						font-size: 2.5rem;
 					}
 
 					.search-input {
-						height: 50px;
-						font-size: 0.9rem;
+						height: 55px;
+						font-size: 1rem;
+						padding: 0 60px 0 20px;
 					}
 
-					.search-button {
-						width: 38px;
-						height: 38px;
+					.search-button, .copy-button {
+						width: 42px;
+						height: 42px;
+					}
+
+					.copy-button {
+						right: 55px;
 					}
 
 					.example {
-						padding: 1rem;
+						padding: 1.5rem;
 					}
 					
 					.example p {
-						font-size: 0.85rem;
-						padding-left: 0.8rem;
-						margin: 0.7rem 0;
+						font-size: 0.9rem;
+						padding-left: 1rem;
+						margin: 0.8rem 0;
 					}
 					
 					.example-title {
-						font-size: 0.95rem;
-						padding-bottom: 0.6rem;
+						font-size: 1.1rem;
+						padding-bottom: 0.7rem;
 					}
 					
 					.github-corner svg {
 						width: 60px;
 						height: 60px;
+					}
+
+					.action-buttons {
+						flex-direction: column;
+						align-items: center;
+					}
+
+					.action-btn {
+						width: 100%;
+						max-width: 200px;
+						justify-content: center;
+					}
+
+					.copyright {
+						font-size: 0.8rem;
+						padding: 1rem;
 					}
 				}
 			</style>
@@ -486,7 +727,7 @@ async function githubInterface() {
 			</a>
 			
 			<div class="container">
-				<h1 class="title"><span class="emoji">📦</span>GitHub 文件加速</h1>
+				<h1 class="title"><span class="emoji">🚀</span>GitHub 文件加速</h1>
 				
 				<form onsubmit="toSubmit(event)" class="search-container">
 					<input 
@@ -497,12 +738,35 @@ async function githubInterface() {
 						pattern="^((https|http):\/\/)?(github\.com\/.+?\/.+?\/(?:releases|archive|blob|raw|suites)|((?:raw|gist)\.(?:githubusercontent|github)\.com))\/.+$" 
 						required
 					>
-					<button type="submit" class="search-button">
+					<button type="button" class="copy-button" onclick="copyCurrentUrl()" title="复制当前链接">
+						<svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+							<path d="M8 2v4M8 10h8M8 14h8M8 18h8M4 6h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2z" stroke-linecap="round" stroke-linejoin="round"/>
+						</svg>
+					</button>
+					<button type="submit" class="search-button" title="生成代理链接">
 						<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
 							<path d="M13 5l7 7-7 7M5 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
 						</svg>
 					</button>
 				</form>
+
+				<div id="resultContainer" class="result-container">
+					<div class="result-url" id="resultUrl"></div>
+					<div class="action-buttons">
+						<button class="action-btn copy-btn" onclick="copyResultUrl()">
+							<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+								<path d="M8 2v4M8 10h8M8 14h8M8 18h8M4 6h16a2 2 0 012 2v12a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2z" stroke-linecap="round" stroke-linejoin="round"/>
+							</svg>
+							复制链接
+						</button>
+						<a class="action-btn jump-btn" id="jumpBtn" target="_blank">
+							<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+								<path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" stroke-linecap="round" stroke-linejoin="round"/>
+							</svg>
+							直接跳转
+						</a>
+					</div>
+				</div>
 
 				<div class="tips">
 					<p>✨ 支持带协议头(https://)或不带的GitHub链接，更多用法见<a href="https://hunsh.net/archives/23/">文档说明</a></p>
@@ -518,6 +782,12 @@ async function githubInterface() {
 					<p>💾 commit文件：<span class="url-part">github.com/hunshcn/project/blob/123/filename</span></p>
 					<p>🖨️ gist：<span class="url-part">gist.githubusercontent.com/cielpy/123/raw/cmd.py</span></p>
 				</div>
+
+				<div class="copyright">
+					<p>© 2024 <a href="https://github.com/antwen" target="_blank">antwen</a> | 
+					Powered by <a href="https://www.cloudflare.com/" target="_blank">Cloudflare</a> | 
+					<a href="https://www.edgeone.com/" target="_blank">EdgeOne</a></p>
+				</div>
 			</div>
 
 			<script>
@@ -525,8 +795,162 @@ async function githubInterface() {
 					e.preventDefault();
 					const input = document.getElementsByName('q')[0];
 					const baseUrl = location.href.substr(0, location.href.lastIndexOf('/') + 1);
-					window.open(baseUrl + input.value);
+					const proxyUrl = baseUrl + input.value;
+					
+					// 显示结果容器
+					const resultContainer = document.getElementById('resultContainer');
+					const resultUrl = document.getElementById('resultUrl');
+					const jumpBtn = document.getElementById('jumpBtn');
+					
+					resultUrl.textContent = proxyUrl;
+					jumpBtn.href = proxyUrl;
+					resultContainer.style.display = 'block';
+					
+					// 滚动到结果区域
+					resultContainer.scrollIntoView({ behavior: 'smooth' });
 				}
+
+				function copyResultUrl() {
+					const resultUrl = document.getElementById('resultUrl');
+					const url = resultUrl.textContent;
+					
+					if (navigator.clipboard && window.isSecureContext) {
+						navigator.clipboard.writeText(url).then(() => {
+							showNotification('链接已复制到剪贴板！', 'success');
+						}).catch(() => {
+							fallbackCopyTextToClipboard(url);
+						});
+					} else {
+						fallbackCopyTextToClipboard(url);
+					}
+				}
+
+				function copyCurrentUrl() {
+					const input = document.getElementsByName('q')[0];
+					const url = input.value;
+					
+					if (url.trim()) {
+						if (navigator.clipboard && window.isSecureContext) {
+							navigator.clipboard.writeText(url).then(() => {
+								showNotification('链接已复制到剪贴板！', 'success');
+							}).catch(() => {
+								fallbackCopyTextToClipboard(url);
+							});
+						} else {
+							fallbackCopyTextToClipboard(url);
+						}
+					} else {
+						showNotification('请先输入GitHub链接！', 'warning');
+					}
+				}
+
+				function fallbackCopyTextToClipboard(text) {
+					const textArea = document.createElement('textarea');
+					textArea.value = text;
+					textArea.style.position = 'fixed';
+					textArea.style.left = '-999999px';
+					textArea.style.top = '-999999px';
+					document.body.appendChild(textArea);
+					textArea.focus();
+					textArea.select();
+					
+					try {
+						document.execCommand('copy');
+						showNotification('链接已复制到剪贴板！', 'success');
+					} catch (err) {
+						showNotification('复制失败，请手动复制', 'error');
+					}
+					
+					document.body.removeChild(textArea);
+				}
+
+				function showNotification(message, type) {
+					// 创建通知元素
+					const notification = document.createElement('div');
+					notification.style.cssText = \`
+						position: fixed;
+						top: 20px;
+						right: 20px;
+						padding: 15px 20px;
+						border-radius: 10px;
+						color: #000;
+						font-family: 'Courier New', monospace;
+						font-weight: bold;
+						z-index: 10000;
+						animation: slideIn 0.3s ease-out;
+						box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+					\`;
+					
+					// 根据类型设置样式
+					switch(type) {
+						case 'success':
+							notification.style.background = 'linear-gradient(45deg, #00ff00, #00cc00)';
+							notification.style.border = '2px solid #00ff00';
+							break;
+						case 'warning':
+							notification.style.background = 'linear-gradient(45deg, #ffaa00, #ff8800)';
+							notification.style.border = '2px solid #ffaa00';
+							break;
+						case 'error':
+							notification.style.background = 'linear-gradient(45deg, #ff0000, #cc0000)';
+							notification.style.border = '2px solid #ff0000';
+							break;
+					}
+					
+					notification.textContent = message;
+					document.body.appendChild(notification);
+					
+					// 3秒后自动移除
+					setTimeout(() => {
+						notification.style.animation = 'slideOut 0.3s ease-in';
+						setTimeout(() => {
+							if (notification.parentNode) {
+								notification.parentNode.removeChild(notification);
+							}
+						}, 300);
+					}, 3000);
+				}
+
+				// 添加CSS动画
+				const style = document.createElement('style');
+				style.textContent = \`
+					@keyframes slideIn {
+						from {
+							transform: translateX(100%);
+							opacity: 0;
+						}
+						to {
+							transform: translateX(0);
+							opacity: 1;
+						}
+					}
+					@keyframes slideOut {
+						from {
+							transform: translateX(0);
+							opacity: 1;
+						}
+						to {
+							transform: translateX(100%);
+							opacity: 0;
+						}
+					}
+				\`;
+				document.head.appendChild(style);
+
+				// 页面加载完成后的初始化
+				document.addEventListener('DOMContentLoaded', function() {
+					// 添加键盘快捷键支持
+					document.addEventListener('keydown', function(e) {
+						if (e.ctrlKey && e.key === 'Enter') {
+							const form = document.querySelector('form');
+							form.dispatchEvent(new Event('submit'));
+						}
+					});
+					
+					// 输入框自动聚焦
+					const input = document.getElementsByName('q')[0];
+					input.focus();
+				});
 			</script>
 		</body>
 		</html>
